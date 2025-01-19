@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ technique | capitalize }} Sampling</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+        }
+        form {
+            margin-top: 20px;
+            display: inline-block;
+            text-align: left;
+        }
+        label {
+            display: block;
+            margin: 10px 0 5px;
+        }
+        input, textarea {
+            padding: 8px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        textarea {
+            height: 100px;
+            resize: none;
+        }
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            color: white;
+            background-color: #007BFF;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #f8f9fa;
+            border: 1px solid #ddd;
+            display: inline-block;
+        }
+        .back-link {
+            margin-top: 20px;
+            display: block;
+            text-decoration: none;
+            color: #007BFF;
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h1>{{ technique | capitalize }} Sampling</h1>
+    <form method="POST">
+        {% if technique == 'quadrat' %}
+            <label for="rows">Rows in Quadrat:</label>
+            <input type="number" id="rows" name="rows" required>
+            <label for="cols">Columns in Quadrat:</label>
+            <input type="number" id="cols" name="cols" required>
+        {% elif technique == 'capture_recapture' %}
+            <label for="M">Marked Individuals (M):</label>
+            <input type="number" id="M" name="M" required>
+            <label for="C">Captured Individuals (C):</label>
+            <input type="number" id="C" name="C" required>
+            <label for="R">Recaptured Individuals (R):</label>
+            <input type="number" id="R" name="R" required>
+        {% elif technique == 'transect' %}
+            <label for="transect_line">Transect Line (Index):</label>
+            <input type="number" id="transect_line" name="transect_line" required>
+        {% elif technique == 'adaptive' %}
+            <label for="threshold">Threshold:</label>
+            <input type="number" id="threshold" name="threshold" required>
+        {% elif technique == 'network' %}
+            <label for="start_node">Start Node:</label>
+            <input type="text" id="start_node" name="start_node" required>
+            <label for="depth">Depth:</label>
+            <input type="number" id="depth" name="depth" required>
+        {% elif technique == 'composite' %}
+            <label for="samples">Samples (comma-separated groups):</label>
+            <textarea id="samples" name="samples" placeholder="e.g., 1,2,3\n4,5,6" required></textarea>
+        {% elif technique == 'rank_set' %}
+            <label for="data">Data (comma-separated):</label>
+            <input type="text" id="data" name="data" required>
+            <label for="set_size">Set Size:</label>
+            <input type="number" id="set_size" name="set_size" required>
+            <label for="cycles">Cycles:</label>
+            <input type="number" id="cycles" name="cycles" required>
+        {% endif %}
+
+        <button type="submit">Submit</button>
+    </form>
+
+    {% if result is not none %}
+        <div class="result">
+            <h3>Result:</h3>
+            <p>{{ result }}</p>
+        </div>
+    {% endif %}
+
+    <a href="/" class="back-link">Back to Home</a>
+</body>
+</html>
